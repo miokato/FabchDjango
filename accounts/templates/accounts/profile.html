@@ -1,0 +1,59 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h2>{{ user.username }}さんのページ</h2>
+        <div class="col-md-9">
+            <!-- お気に入り -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    お気に入り
+                </div>
+                <div class="panel-body">
+                    お気に入り一覧
+                </div>
+            </div>
+            <!-- 視聴履歴 -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    視聴履歴
+                </div>
+
+                {% for lecture in watched_lectures %}
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'classes:lecture' lecture.klass_name lecture.lecture_id %}">
+                            {{ lecture.klass_name }} - {{ lecture.lecture_num }}. {{ lecture.lecture_name }}
+                        </a>
+
+                    </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    プロフィール
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item">Mail: {{ user.email }}</div>
+                    <div class="list-group-item">名前: {{ user.username }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="container">
+        </p>&copy; Copyright 2016 by Global STEM Learning Association Japan.</p>
+    </div>
+</footer>
+{% endblock %}

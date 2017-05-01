@@ -1,0 +1,86 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row" >
+
+        <!-- パンくずリスト -->
+        <ol class="breadcrumb">
+            <li><a href="{% url 'classes:classes' %}">Home</a></li>
+            <li>
+                <a href="{% url 'classes:lectures' the_lecture.klass_name %}">
+                    {{ the_lecture.klass_name }}
+                </a>
+            </li>
+            <li>{{ the_lecture.lecture_name }}</li>
+        </ol>
+        <h3>{{ the_lecture.lecture_name }}</h3>
+
+
+        <!-- vimeo動画 col-md-9 -->
+        <div class="col-md-9">
+            <div class="iframe-wrapper">
+
+                <!-- データベースから動画のURLを引っ張る -->
+                <iframe src="https://player.vimeo.com/video/{{ the_lecture.video_number }}"
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- 戻る、進むボタン -->
+            <div class="btn-group" role="group">
+                {% if the_lecture.lecture_num <= 1 %}
+                    <a class="btn btn-default" disabled="disabled">
+                        <span class="glyphicon glyphicon-menu-left"></span> 前へ
+                    </a>
+                {% else %}
+                    <a class="btn btn-default" href="{% url 'classes:lecture' the_lecture.klass_name the_lecture.lecture_id|add:'-1' %}">
+                        <span class="glyphicon glyphicon-menu-left"></span> 前へ
+                    </a>
+                {% endif %}
+
+                {% if the_lecture.lecture_num == lectures|length %}
+                    <a class="btn btn-default" disabled="disabled">
+                        <span class="glyphicon glyphicon-menu-right"></span> 次へ
+                    </a>
+                {% else %}
+                    <a class="btn btn-default" href="{% url 'classes:lecture' the_lecture.klass_name the_lecture.lecture_id|add:'1' %}">
+                        <span class="glyphicon glyphicon-menu-right"></span> 次へ
+                    </a>
+                {% endif %}
+            </div>
+        </div><!-- col-md-9 -->
+
+        <!-- レクチャー一覧 col-md-3 -->
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                {% for lecture in lectures %}
+                    {% if lecture.lecture_id == 1 %}
+                        <div class="panel-heading">
+                            {{ klass.klass_name }}
+                        </div>
+                    {% endif %}
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'classes:lecture' lecture.klass_name lecture.lecture_id %}">
+                            <h6>{{ forloop.counter }}. {{ lecture.lecture_name }}</h6>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="container">
+        </p>&copy; Copyright 2016 by Global STEM Learning Association Japan.</p>
+    </div>
+</footer>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "home/base.html" %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'classes/css/classes.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- カテゴリ別クラス -->
+<div class="container" >
+    {% for category in categories %}
+        <div class="panel panel-default" id="category-panel">
+            <div class="panel-heading text-center" id="category-panel-heading">
+                <h4>{{ category.category_name }}</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    {% for lecture in lectures %}
+                        {% if lecture.category_id == category.category_id %}
+                            {% if lecture.lecture_num == 1 %}
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <div class="panel panel-default">
+                                        <a>
+                                            <div class="panel-body">
+                                                <img src="{{ lecture.klass_img }}" class="img-responsive center-block" alt="D71_0206">
+                                            </div>
+                                            <div class="panel-footer">
+                                                <h4>{{ lecture.klass_name }}</h4>
+                                                <a href="{% url 'classes:lectures' lecture.klass_name %}">受講する</a>
+                                            </div>
+
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="container">
+        </p>&copy; Copyright 2016 by Global STEM Learning Association Japan.</p>
+    </div>
+</footer>
+{% endblock %}
